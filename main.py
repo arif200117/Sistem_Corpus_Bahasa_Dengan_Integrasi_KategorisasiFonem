@@ -1,3 +1,4 @@
+# Library
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -13,13 +14,13 @@ WORDS_PRON_DICT = ''
 # Ukuran buffer atau blok data adalah 1024 byte
 CHUNK = 1024
 
-# Fungsi untuk menghapus tanda baca dari teks
+
 def remove_punctuation(text):
     text_with_space = text.replace('-', ' ')
     text_without_punctuation = re.sub(r'[^\w\s]', '', text_with_space)
     return text_without_punctuation
 
-# Fungsi untuk menghitung Longest Prefix Suffix (LPS) dalam algoritma KMP
+
 def compute_lps(pattern):
     lps = [0] * len(pattern)
     length = 0
@@ -37,7 +38,7 @@ def compute_lps(pattern):
                 i += 1
     return lps
 
-# Fungsi untuk mencari pola dalam teks menggunakan algoritma KMP
+
 def kmp_search(text, pattern, start=0, end=None):
     if end is None:
         end = len(text)
@@ -63,123 +64,14 @@ def kmp_search(text, pattern, start=0, end=None):
                 i += 1
     return False
 
+
 # Fungsi untuk mencari pola dalam sebuah file
 def search_in_file(pattern, file_path):
     with open(file_path, 'r') as file:
         text = file.read().replace('\n', '')
         return pattern in text
 
-# Fungsi kategorisasi fonem
-def kategorisasi_fonem(missing_words, file_path):
-    pattern_tiga = ["kan", "nga", "nya", "sya", "nyi", "nyo", "tya", "syu", "ter", "ber", "per", "pem", "pri", "tur",
-                    "tes", "pan", "vei", "sur", "men", "lah"]
-    pattern_satu = ["a", "i", "u", "e", "o"]
-
-    for word in missing_words:
-        fonem_awal = []
-        fonem_akhir = []
-        fonem_3 = []
-
-        for fonem in pattern_tiga:
-            if kmp_search(word, fonem):
-                fonem_3.append(fonem)
-        remaining_letters = len(word) - (len(fonem_3) * 3)
-
-        if remaining_letters != 0 and remaining_letters % 2 == 1:  # Ganjil
-            if word[0] in pattern_satu and word[0:3] not in pattern_tiga:
-                fonem_awal.append(word[0])
-            elif word[0] not in pattern_satu and word[0:3] not in pattern_tiga:
-                fonem_awal.append(word[0:2])
-            else:
-                fonem_awal.append(word[0:3])
-
-        elif remaining_letters != 0 and remaining_letters % 2 == 0 and word[0:3] not in pattern_tiga:  # Genap
-            fonem_awal.append(word[0:2])
-
-        elif remaining_letters != 0 and remaining_letters % 2 == 0 and word[
-                                                                       0:3] in pattern_tiga:  # Genap huruf pertama 3 huruf pertama
-            fonem_awal.append(word[0:3])
-        elif remaining_letters == 0 and word[0:3] in pattern_tiga:
-            fonem_awal.append(word[0:3])
-
-        if fonem_awal:
-            first_fonem = len(fonem_awal[0])
-
-        remaining_letters2 = len(word) - first_fonem
-
-        if remaining_letters2 != 0 and remaining_letters2 % 2 == 1:  # karakter tersisa dikurang fonem awal = Ganjil
-            if word[-1] in pattern_satu and word[-3:] not in pattern_tiga:
-                fonem_akhir.append(word[-1])
-            elif word[-1] not in pattern_satu and word[-3:] not in pattern_tiga:
-                area_ft = word[first_fonem:len(word) - 1]
-                i = 0
-                ft3 = []
-                for char in area_ft:
-                    if area_ft[i:i + 3] in pattern_tiga:
-                        ft3.append(area_ft[i:i + 3])
-                        i += 3
-                if ft3:
-                    if len(ft3) % 2 == 1:
-                        fonem_akhir.append(word[-2:])
-                    else:
-                        fonem_akhir.append(word[-1:] + "~")
-                elif not ft3:
-                    fonem_akhir.append(word[-1:] + "~")
-            else:
-                fonem_akhir.append(word[-3:])
-
-        elif remaining_letters2 != 0 and remaining_letters2 % 2 == 0:  # karakter tersisa dikurang fonem awal = Genap
-            if word[-3:] not in pattern_tiga:  # Genap
-                fonem_akhir.append(word[-2:])
-            else:
-                fonem_akhir.append(word[-3:])
-
-        elif remaining_letters2 % 2 == 0 and word[-3:] in pattern_tiga:  # Genap
-            fonem_akhir.append(word[-3:])
-
-        if "~" in fonem_akhir[0]:
-            end_fonem = len(fonem_akhir[0]) - 1
-        else:
-            end_fonem = len(fonem_akhir[0])
-
-        remaining_letters3 = len(word) - first_fonem - end_fonem
-        area_ft = word[first_fonem:len(word) - end_fonem]
-        fonem_tengah = []
-        i = 0
-
-        for char in area_ft:
-            if area_ft[i:i + 3] in pattern_tiga:
-                fonem_tengah.append(area_ft[i:i + 3])
-                i += 3
-            else:
-                fonem_tengah.append(area_ft[i:i + 2])
-                i += 2
-
-        for i, fonem in enumerate(fonem_tengah):
-            if len(fonem) == 1 and fonem not in pattern_satu:
-                fonem_tengah[i] = fonem + "~"
-
-        fonem_awal = [item for item in fonem_awal if item != ""]
-        fonem_tengah = [item for item in fonem_tengah if item != ""]
-        fonem_akhir = [item for item in fonem_akhir if item != ""]
-
-        if fonem_akhir and fonem_awal and fonem_tengah:  # fonem akhir ada
-            with open(file_path, 'a') as file:
-                file.write(word + " " + " " + " ".join(fonem_awal) + " " + " ".join(fonem_tengah) + " " + " ".join(
-                    fonem_akhir) + "\n")
-        elif fonem_awal and fonem_tengah and not fonem_akhir:
-            with open(file_path, 'a') as file:
-                file.write(word + " " + " " + " ".join(fonem_awal) + " " + " ".join(fonem_tengah) + "\n")
-        elif fonem_awal and fonem_akhir and not fonem_tengah:
-            with open(file_path, 'a') as file:
-                file.write(word + " " + " " + " ".join(fonem_awal) + " " + " ".join(fonem_akhir) + "\n")
-        else:  # fonem akhir habis
-            with open(file_path, 'a') as file:
-                file.write(word + " " + " " + " ".join(fonem_awal) + "\n")
-
-    return "Kata berhasil ditambahkan ke dalam korpus."
-
-#Fungsi untuk memilih file korpus
+# Fungsi mencari file
 def browse_corpus_file():
     global WORDS_PRON_DICT
     file_path = filedialog.askopenfilename(title="Select Corpus File", filetypes=[("Text Files", "*.txt")])
@@ -187,7 +79,219 @@ def browse_corpus_file():
     corpus_file_entry.delete(0, tk.END)
     corpus_file_entry.insert(tk.END, file_path)
 
-# Fungsi untuk menjalankan pencarian dalam korpus
+# Fungsi Kategorisasi Fonem
+def kategorisasi_fonem(missing_words, file_path):
+    # Definisi Vokal, Konsonan, difthong, konsonan gabungan, dan fonem 3 huruf
+    v = ['a', 'i', 'u', 'e', 'o']
+    k = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z']
+    v2 = ['ai', 'au', 'oi']
+    k2 = ['kh', 'ng', 'ny', 'sy']
+    f3 = ['kan', 'nga', 'nya', 'sya', 'nyi', 'nyo', 'tya', 'syu', 'ter', 'ber', 'per', 'pem', 'pri', 'tur',
+          'tes', 'pan', 'vei', 'sur', 'men', 'lah']
+
+    #memisahkan kata per kata
+    for word in missing_words:
+        fonem_awal = []
+        fonem_akhir = []
+        fonem_3 = []
+
+        #mengecek apakah ada fonem 3 huruf dalam kata
+        for fonem in f3:
+            if kmp_search(word, fonem):
+                fonem_3.append(fonem)
+
+        #menghitung panjang string kata tersisa setelah dikurangi panjang fonem 3 huruf(Jika ada)
+        remaining_letters = len(word) - (len(fonem_3) * 3)
+
+        #Menentukan Fonem pertama
+        if remaining_letters != 0:
+            # kondisi string tersisa = Ganjil
+            if remaining_letters % 2 == 1:
+                # kondisi huruf pertama = vokal, 3 huruf pertama bukan fonem 3 huruf
+                if word[0] in v and word[0:3] not in f3:
+                    #melakukan pengecekan pada huruf ke 2 dan ke 3 merupakan KK (konsonan konsonan) yang bukan konsonan gabungan
+                    #input "indonesia" output : ["in"]
+                    if word[1] in k and word[2] in k and word[1:3] not in k2:
+                        fonem_awal.append(word[0:2])
+                    if word[1] in v and word[0:2] in v2:
+                        fonem_awal.append(word[0:2])
+                    # input "angsa" output : ["a"], karena walaupun 'n','g' merupakan konsonan namun ia masuk dalam k2
+                    else :
+                        fonem_awal.append(word[0])
+
+                # kondisi huruf pertama = konsonan, 3 huruf pertama bukan fonem 3 huruf
+                elif word[0] in k and word[0:3] not in f3:
+                    #melakukan pengecekan huruf ke 2 dan ke 3 merupakan VV (vokal vokal)
+                    if word[1] in v and word[2] in v:
+                        fonem_awal.append(word[0:2])
+                    # kondisi panjang string >3 : pengecekan huruf ke 2,3, dan 4 merupakan VKK (vokal konsonan konsonan)
+                    # input "contoh" output : ["co", "n~"]
+                    elif len(word) > 3 and word[1] in v and word[2] in k and word[3] in k and word[2:4] not in k2:
+                        fonem_awal.append(word[0:2])
+                        fonem_awal.append(word[2]+"~")
+                    #mengatasi jika pola = KVKV / KK+
+                    else:
+                        fonem_awal.append(word[0:2])
+
+                # kondisi 3 huruf pertama merupakan fonem 3 huruf
+                else:
+                    fonem_awal.append(word[0:3])
+
+            # kondisi string tersisa = Genap
+            else:
+                #memastikan 3 huruf pertama bukan fonem 3 huruf
+                if word[0:3] not in f3:
+                    #memastikan tidak terjadi pola VV (vokal vokal) yang bukan difthong
+                    if word[0] in v and word[1] in v and word[0:2] not in v2:
+                        fonem_awal.append(word[0])
+                    #memastikan tidak terjadi pola KK pada karakter ke 3 dan 4
+                    elif len(word)>3 and word[0] in k and word[1] in v and word[2] in k and word[3] in k and word[2:4] not in k2:
+                        fonem_awal.append(word[0:2])
+                        fonem_awal.append(word[2]+"~")
+                    # mengatasi selain pola VV, seperti VK KV
+                    else:
+                        fonem_awal.append(word[0:2])
+                #kondisi 3 huruf pertama merupakan fonem 3 huruf
+                else:
+                    fonem_awal.append(word[0:3])
+
+        #kondisi 3 huruf pertama merupakan fonem 3 huruf
+        else:
+            fonem_awal.append(word[0:3])
+
+        #menghitung sisa string tersisa setelah dikurang jumlah string fonem pertama
+        first_fonem = 0
+        for fonem in fonem_awal:
+            if "~" in fonem:
+                first_fonem += len(fonem) - 1
+            else:
+                first_fonem += len(fonem)
+
+        remaining_letters2 = len(word) - first_fonem
+
+        #kondisi huruf tersisa belum habis
+        if remaining_letters2 != 0:
+            #kondisi string tersisa = ganjil
+            if remaining_letters2 % 2 == 1:
+                #kondisi 3 huruf terakhir bukan merupakan fonem 3 huruf
+                if word[-3:] not in f3:
+                    #kondisi huruf terakhir = vokal
+                    if word[-1] in v:
+                        #kondisi 2 dan 3 huruf terakhi memenuhi pola KK yang bukan merupakan konsonan gabungan
+                        if word[-2] in k and word[-3] in k and word[-3:-1] not in k2:
+                            fonem_akhir.append(word[-2:])
+                        else:
+                            fonem_akhir.append(word[-1])
+
+                    #kondisi huruf terakhir = konsonan
+                    else:
+                        #menciptakan ruang fonem tengah sementara
+                        area_ft = word[first_fonem:len(word) - 1]
+                        i = 0
+                        ft3 = []
+
+                        #melakukan pengecekan karakter di ruang fonem tengah
+                        for char in area_ft:
+                            #melakukan pengecekan apakah ada fonem 3huruf di ruang fonem tengah
+                            if i + 3 <= len(area_ft) and area_ft[i:i + 3] in f3:
+                                ft3.append(area_ft[i:i + 3])
+                                i += 3
+                            #kondisi ditemukan fonem 3huruf pada ruang fonem tengah
+                        if ft3:
+                            #kondisi jumlah string fonem 3 huruf = ganjil
+                            if len(ft3) % 2 == 1:
+                                fonem_akhir.append(word[-2:])
+                            #kondisi jumlah string fonem 3 huruf = genap
+                            else:
+                                fonem_akhir.append(word[-1:] + "~")
+                            #kondisi tidak ditemukan fonem 3 huruf pada ruang fonem tenggah
+                        else:
+                            fonem_akhir.append(word[-1:] + "~")
+                #kondisi 3 huruf terakhir merupakan fonem 3 huruf
+                else:
+                    #memastikan tidak terjadi kondisi vv pada 4 dan 5 karakter terakhir yang bukan difthong
+                    if remaining_letters2 > 4 and word[-4] in v and word[-5] in v and word[-5:-3] not in v2:
+                        fonem_akhir.append(word[-4:-2])
+                        fonem_akhir.append(word[-2:])
+                    elif remaining_letters2 > 2 and word[-3:] in f3:
+                        fonem_akhir.append(word[-3:])
+                    #kondisi apabila string tersisa tidak sampai <3
+                    else:
+                        fonem_akhir.append(word[-2:])
+
+            #kondisi string tersisa = genap
+            else:
+                # kondisi 3 huruf terakhir bukan merupakan fonem 3 huruf
+                if word[-3:] not in f3:
+                    fonem_akhir.append(word[-2:])
+                #kondisi 3 huruf terakhir merupakan fonem 3 huruf
+                else:
+                    # memastikan tidak terjadi kondisi vv pada 4 dan 5 karakter terakhir yang bukan difthong
+                    if remaining_letters2 > 4 and word[-4] in v and word[-5] in v and word[-5:-3] not in v2:
+                        fonem_akhir.append(word[-4:-2])
+                        fonem_akhir.append(word[-2:])
+                    elif remaining_letters2 > 2 and word[-3:] in f3:
+                        fonem_akhir.append(word[-3:])
+                    # kondisi apabila string tersisa tidak sampai <3
+                    else:
+                        fonem_akhir.append(word[-2:])
+
+        #menghitung panjang string fonem akhir
+        last_fonem = 0
+        for fonem in fonem_akhir:
+            if "~" in fonem:
+                last_fonem += len(fonem) - 1
+            else:
+                last_fonem += len(fonem)
+
+        #menghitung ruang fonem tengah
+        area_ft = word[first_fonem:len(word) - last_fonem]
+        if area_ft:
+            fonem_tengah = []
+            i = 0
+
+            #fungsi semua karakter di ruang fonem tengah
+            for char in area_ft:
+                #mengecek setiap 3 karakter dalam area fonem tengah, dan mengecek apakah itu merupakan fonem 3?
+                if i + 3 <= len(area_ft) and area_ft[i:i + 3] in f3:
+                    fonem_tengah.append(area_ft[i:i + 3])
+                    i += 3
+                else:
+                    if (area_ft[i] in v and area_ft[i+1] in v and area_ft[i:i + 2] not in v2) or (area_ft[i] in k and area_ft[i+1] in k and area_ft[i:i + 3] not in k2):
+                        fonem_tengah.append(area_ft[i])
+                        i += 1
+                    else:
+                        fonem_tengah.append(area_ft[i:i + 2])
+                        i += 2
+
+            for i, fonem in enumerate(fonem_tengah):
+                if len(fonem) == 1 and fonem in k:
+                    fonem_tengah[i] = fonem + "~"
+
+        #memastikan tidak ada fonem kosong
+        fonem_awal = [item for item in fonem_awal if item != ""]
+        fonem_tengah = [item for item in fonem_tengah if item != ""]
+        fonem_akhir = [item for item in fonem_akhir if item != ""]
+
+
+        def clean_and_combine(fonem_list):
+            #Bersihkan list dari item kosong dan gabungkan dengan tanda +
+            return "+".join([item for item in fonem_list if item != ""])
+
+        # Gabungkan semua fonem yang ada
+        combined_fonem = []
+        for fonem in [fonem_awal, fonem_tengah, fonem_akhir]:
+            if fonem:
+                combined_fonem.append(clean_and_combine(fonem))
+
+        content = word + "  " + "+".join(combined_fonem)
+
+        with open(file_path, 'a') as file:
+            file.write(content + "\n")
+
+    return "Kata berhasil ditambahkan ke dalam korpus."
+
+
 def run_search():
     loaded_words = load_words(WORDS_PRON_DICT)
     kalimat = kalimat_entry.get()
@@ -211,7 +315,6 @@ def run_search():
                     found_words.append(word)
                 else:
                     missing_words.append(word)
-
     missing_words = list(set(kata_kata) - set(found_words))
 
     if missing_words:
@@ -236,16 +339,17 @@ def load_words(words_pron_dict):
             if not (line.startswith(';;;') or line.strip() == ''):
                 # Lakukan sesuatu dengan baris yang tidak merupakan komentar atau baris koson
                 key, val = line.split('  ', 2)
-                corpus[key] = re.findall(r"[\w+~]+", val)
+                corpus[key] = re.findall(r"[\w~#]+", val)
     return corpus
 
-# Fungsi untuk mendapatkan pengucapan kata dalam fonem
 def get_pronunciation(corpus, str_input):
     list_pron = []
+    list_corpus =[]
     # print(str_input) #terbaca
-    x = re.sub(r"\s+", ' space ', str_input)
+    x = re.sub(r"\s+", ' # ', str_input)
     str_input = x
-    for word in re.findall(r"(\w+)+", str_input.lower()):  # ambil tiap kata
+
+    for word in re.findall(r"[\w#]+", str_input.lower()):  # ambil tiap kata
         if word in corpus:  # cek kata ada dalam corpus? tidak terdeteksi
             list_pron.extend(corpus[word])
         else:
@@ -296,9 +400,9 @@ def save_audio(corpus,str_input):
     dir_fon = "E:\AI\Sistem Terbaru fix\Fonem"
     dir_out = "E:\AI\Sistem Terbaru fix\Output"
     #print(corpus) #terbaca
-    x = re.sub(r"\s+", ' space ', str_input)
+    x = re.sub(r"\s+", ' # ', str_input)
     str_input = x
-    for word in re.findall(r"(\w+)+", str_input.lower()):  # ambil tiap kata
+    for word in re.findall(r"[\w#]+", str_input.lower()):  # ambil tiap kata
         if word in corpus:  # cek kata ada dalam corpus? tidak terdeteksi
             list_pron.extend(corpus[word])
         else:
@@ -329,6 +433,7 @@ def saved():
     loaded_words = load_words(WORDS_PRON_DICT)
     text_info = text.get()
     save_audio(loaded_words,text_info)
+
 
 
 # Membuat jendela utama aplikasi
