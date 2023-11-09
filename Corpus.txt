@@ -1,4 +1,4 @@
-space  space
+#  #
 t  t 
 v  v 
 e  e 
@@ -31,7 +31,6 @@ ay  ay
 bu  bu 
 te  te 
 li  li 
-ikan  i kan 
 ji  ji 
 ru  ru 
 ber  ber 
@@ -77,113 +76,163 @@ nyo  nyo
 vei  vei 
 sya  sya 
 lah  lah 
-henti  he nt i
-telah  te lah
-tanpa  ta np a
-kau  ka u
-berpaling  ber pa li ng
-cinta  ci nt a
-lagi  la gi
-hujan  hu ja n~
-disini  di si ni
-sekarang  se ka ra ng
-bisa  bi sa
-dengan  de ng an
-bulan  bu la n~
-hasil  ha si l~
-salah  sa lah
-sembilan  se mb il an
-remote  re mo te
-luar  lu ar
-seminar  se mi na r~
-untuk  u nt uk
-segera  se ge ra
-wisuda  wi su da
-dan  da n~
-kerja  ke rj a
-menargetkan  men ar ge t kan
-september  se pt em ber
-satu  sa tu
-tahun  ta hu n~
-saya  sa ya
-mungkin  mu ng ki n~
-diri  di ri
-negeri  ne ge ri
-perusahaan  per us ah aa n~
-atau  at au
-ini  i ni
-yaitu  ya it u
-sudah  su da h~
-lolos  lo lo s~
-setelah  se te lah
-meluluskan  me lu lu s~ kan
-yang  ya ng
-arif  ar if
-dalam  da la m~
-kegiatan  ke gi at an
-menemani  men em an i
-acara  a ca ra
-semua  se mu a
-kalian  ka li an
-pembawa  pem ba wa
-halo  ha lo
-akan  a kan
-hari  ha ri
-ganteng  ga nt en g~
-putri  pu tr i
-papa  pa pa
-kaca  ka ca
-kuda  ku da
-mata  ma ta
-sayang  sa ya ng
-bunda  bu nd a
-tak  ta k~
-aku  a ku
-marah  ma ra h~
-kacang  ka ca ng
-garing  ga ri ng
-kaka  ka ka
-anak  an ak
-ayam  ay am
-satan  sa ta n~
-arip  ar ip
-alif  al if
-ultra  u lt ra
-salip  sa li p~
-kopi  ko pi
-shoppe  sh op pe
-somay  so ma y~
-lele  le le
-ternak  ter na k~
-mama  ma ma
-kacamata  ka ca ma ta
-hai  ha i
-baik  ba ik
-semangkin  se ma ng ki n~
-merah  me ra h~
-masalah  ma sa lah
-lihat  li ha t~
-lalat  la la t~
-kata  ka ta
-tata  ta ta
-minggu  mi ng gu
-pada  pa da
-santan  sa nt an
-sasa  sa sa
-toko  to ko
-roti  ro ti
-katakan  ka ta kan
-dea  de a
-kakak  ka ka k~
-gula  gu la
-manis  ma ni s~
-asin  as in
-buka  bu ka
-awan  aw an
-angin  a ng in
-pulang  pu la ng
-apa  a pa
-pinjam  pi nj am
-kasar  ka sa r~
-negara  ne ga ra
-bersama  ber sa ma
+televisi  te+le+vi+si
+panas  pan+as
+ikan  i+kan
+mata  ma+ta
+laut  la+ut
+harapan  ha+ra+pan
+pakaian  pa+ka+ia+n~
+hidung  hi+du+ng
+berbicara  ber+bi+ca+ra
+pohon  po+ho+n~
+pintu  pi+n~+tu
+kambing  ka+m~+bi+ng
+hati  ha+ti
+cita  ci+ta
+kebun  ke+bu+n~
+sandal  sa+n~+da+l~
+kepala  ke+pa+la
+sepatu  se+pa+tu
+desa  de+sa
+impian  im+pi+an
+sekolah  se+ko+lah
+seragam  se+ra+ga+m~
+menonton  men+on+to+n~
+rumah  ru+ma+h~
+bintang  bi+n~+ta+ng
+jembatan  je+m~+ba+ta+n~
+mulut  mu+lu+t~
+seni  se+ni
+rambut  ra+m~+bu+t~
+menangis  men+an+gi+s~
+telinga  te+li+nga
+cinta  ci+n~+ta
+burung  bu+ru+ng
+pena  pe+na
+kaki  ka+ki
+belajar  be+la+ja+r~
+renang  re+na+ng
+mimpi  mi+m~+pi
+murid  mu+ri+d~
+perjalanan  per+ja+la+na+n~
+bekerja  be+ke+r~+ja
+berpikir  ber+pi+ki+r~
+hari  ha+ri
+tidur  ti+du+r~
+pikiran  pi+ki+ra+n~
+sapi  sa+pi
+air  a+ir
+anjing  an+ji+ng
+pelajaran  pe+la+ja+ra+n~
+sepeda  se+pe+da
+minum  mi+nu+m~
+makan  ma+kan
+lari  la+ri
+telepon  te+le+po+n~
+kucing  ku+ci+ng
+dingin  di+ng+in
+tertawa  ter+ta+wa
+musik  mu+si+k~
+universitas  u+ni+ve+rs+it+as
+komputer  ko+m~+pu+ter
+keranjang  ke+ra+nj+an+g~
+buku  bu+ku
+baju  ba+ju
+jalan  ja+la+n~
+hutan  hu+ta+n~
+gunung  gu+nu+ng
+kebenaran  ke+be+na+ra+n~
+matahari  ma+ta+ha+ri
+sepak  se+pa+k~
+lagu  la+gu
+tangan  ta+ng+an
+kertas  ke+r~+ta+s~
+bola  bo+la
+membaca  me+m~+ba+ca
+binatang  bi+na+ta+ng
+meja  me+ja
+sahabat  sa+ha+ba+t~
+kursi  ku+r~+si
+guru  gu+ru
+langit  la+ng+it
+lukisan  lu+ki+sa+n~
+angin  a+ng+in
+menulis  men+ul+is
+sungai  su+ng+ai
+musim  mu+si+m~
+mendengar  men+de+ng+ar
+berjalan  ber+ja+la+n~
+keindahan  ke+in+da+ha+n~
+radio  ra+di+o
+keluarga  ke+lu+ar+ga
+malam  ma+la+m~
+kota  ko+ta
+topi  to+pi
+makanan  ma+kan+an
+hujan  hu+ja+n~
+jendela  je+n~+de+la
+kereta  ke+re+ta
+hewan  he+wa+n~
+bunga  bu+nga
+darat  da+ra+t~
+kacamata  ka+ca+ma+ta
+kuda  ku+da
+dia  di+a
+iya  i+ya
+ini  i+ni
+abu  a+bu
+kamu  ka+mu
+saya  sa+ya
+lima  li+ma
+mama  ma+ma
+kapan  ka+pan
+lapis  la+pi+s~
+siapa  si+ap+a
+kancil  kan+ci+l~
+sayang  sa+ya+ng
+negeri  ne+ge+ri
+sekarang  se+ka+ra+ng
+kopi  ko+pi
+masuk  ma+su+k~
+belok  be+lo+k~
+kanan  kan+an
+manis  ma+ni+s~
+sakit  sa+ki+t~
+mau  ma+u
+masak  ma+sa+k~
+sedang  se+da+ng
+kamar  ka+ma+r~
+bersalaman  ber+sa+la+ma+n~
+menjaga  men+ja+ga
+menikah  men+ik+ah
+berikan  ber+i+kan
+bermain  ber+ma+in
+dan  da+n~
+pergi  per+gi
+untuk  un+tu+k~
+telah  te+lah
+sangat  sa+ng+at
+karena  ka+re+na
+kemarau  ke+ma+ra+u
+banyak  ba+ny+ak
+diberi  di+be+ri
+yang  ya+ng
+dibuat  di+bu+at
+gula  gu+la
+membersihkan  me+m~+ber+si+h~+kan
+ibu  i+bu
+banjir  ba+n~+ji+r~
+ayah  ay+ah
+teras  ter+as
+tetangga  te+ta+ng+ga
+gurame  gu+ra+me
+misal  mi+sa+l~
+ember  em+ber
+tampan  ta+m~+pan
+pemilu  pem+il+u
+memenangkan  me+men+an+g~+kan
+jokowi  jo+ko+wi
+merdeka  me+r~+de+ka
+bergandengan  ber+ga+n~+de+nga+n~
+bersebarangan  ber+se+ba+ra+ng+an
