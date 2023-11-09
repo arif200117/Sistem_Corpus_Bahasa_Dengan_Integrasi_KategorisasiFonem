@@ -257,9 +257,13 @@ def kategorisasi_fonem(missing_words, file_path):
                     fonem_tengah.append(area_ft[i:i + 3])
                     i += 3
                 else:
-                    if (area_ft[i] in v and area_ft[i+1] in v and area_ft[i:i + 2] not in v2) or (area_ft[i] in k and area_ft[i+1] in k and area_ft[i:i + 3] not in k2):
-                        fonem_tengah.append(area_ft[i])
-                        i += 1
+                    if i + 3 <= len(area_ft):
+                        if (area_ft[i] in v and area_ft[i+1] in v and area_ft[i:i + 2] not in v2) or (area_ft[i] in k and area_ft[i+1] in k and area_ft[i:i + 3] not in k2):
+                            fonem_tengah.append(area_ft[i])
+                            i += 1
+                        else:
+                            fonem_tengah.append(area_ft[i:i + 2])
+                            i += 2
                     else:
                         fonem_tengah.append(area_ft[i:i + 2])
                         i += 2
