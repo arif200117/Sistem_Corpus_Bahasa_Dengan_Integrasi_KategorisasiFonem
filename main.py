@@ -82,6 +82,8 @@ def browse_corpus_file():
 # Fungsi Kategorisasi Fonem
 def kategorisasi_fonem(missing_words, file_path):
     # Definisi Vokal, Konsonan, difthong, konsonan gabungan, dan fonem 3 huruf
+
+
     v = ['a', 'i', 'u', 'e', 'o']
     k = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z']
     v2 = ['ai', 'au', 'oi']
@@ -93,6 +95,7 @@ def kategorisasi_fonem(missing_words, file_path):
     for word in missing_words:
         fonem_awal = []
         fonem_akhir = []
+        fonem_tengah = []
         fonem_3 = []
 
         #mengecek apakah ada fonem 3 huruf dalam kata
@@ -247,7 +250,7 @@ def kategorisasi_fonem(missing_words, file_path):
         #menghitung ruang fonem tengah
         area_ft = word[first_fonem:len(word) - last_fonem]
         if area_ft:
-            fonem_tengah = []
+
             i = 0
 
             #fungsi semua karakter di ruang fonem tengah
@@ -271,6 +274,7 @@ def kategorisasi_fonem(missing_words, file_path):
             for i, fonem in enumerate(fonem_tengah):
                 if len(fonem) == 1 and fonem in k:
                     fonem_tengah[i] = fonem + "~"
+            fonem_tengah = [item for item in fonem_tengah if item != ""]
 
         #memastikan tidak ada fonem kosong
         fonem_awal = [item for item in fonem_awal if item != ""]
