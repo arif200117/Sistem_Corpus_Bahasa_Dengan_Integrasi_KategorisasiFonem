@@ -72,12 +72,6 @@ def search_in_file(pattern, file_path):
         return pattern in text
 
 # Fungsi mencari file
-def browse_corpus_file():
-    global WORDS_PRON_DICT
-    file_path = filedialog.askopenfilename(title="Select Corpus File", filetypes=[("Text Files", "*.txt")])
-    WORDS_PRON_DICT = file_path
-    corpus_file_entry.delete(0, tk.END)
-    corpus_file_entry.insert(tk.END, file_path)
 
 # Fungsi Kategorisasi Fonem
 def kategorisasi_fonem(missing_words, file_path):
@@ -226,7 +220,14 @@ def kategorisasi_fonem(missing_words, file_path):
             else:
                 # kondisi 3 huruf terakhir bukan merupakan fonem 3 huruf
                 if word[-3:] not in f3:
-                    fonem_akhir.append(word[-2:])
+                    if remaining_letters2 > 4 and word[-3] in v and word[-4] in v and word[-4:-2] not in v2 or remaining_letters2 > 4 and word[-3] in k and word[-4] in k and word[-4:-2] not in k2:
+                        fonem_akhir.append(word[-3:-1])
+                        if word[-1:] in k:
+                            fonem_akhir.append(word[-1:]+"~")
+                        else:
+                            fonem_akhir.append(word[-1:])
+                    else:
+                        fonem_akhir.append(word[-2:])
                 #kondisi 3 huruf terakhir merupakan fonem 3 huruf
                 else:
                     # memastikan tidak terjadi kondisi vv pada 4 dan 5 karakter terakhir yang bukan difthong
@@ -261,7 +262,7 @@ def kategorisasi_fonem(missing_words, file_path):
                     i += 3
                 else:
                     if i + 3 <= len(area_ft):
-                        if (area_ft[i] in v and area_ft[i+1] in v and area_ft[i:i + 2] not in v2) or (area_ft[i] in k and area_ft[i+1] in k and area_ft[i:i + 3] not in k2):
+                        if (area_ft[i] in v and area_ft[i+1] in v and area_ft[i:i + 2] not in v2) or (area_ft[i] in k and area_ft[i+1] in k and area_ft[i:i + 2] not in k2):
                             fonem_tengah.append(area_ft[i])
                             i += 1
                         else:
@@ -302,7 +303,8 @@ def kategorisasi_fonem(missing_words, file_path):
 
 def run_search():
     loaded_words = load_words(WORDS_PRON_DICT)
-    kalimat = kalimat_entry.get()
+    # kalimat = kalimat_entry.get()
+    kalimat = kalimat_entry.get('1.0', 'end-1c')
     corpus_file_path = corpus_file_entry.get()
 
     kalimat = kalimat.lower()
@@ -400,7 +402,8 @@ def play_audio(sound, delay):
 # Fungsi untuk mengonversi teks menjadi audio
 def convert_audio1():
     loaded_words = load_words(WORDS_PRON_DICT)
-    text_info = text.get()
+    # text_info = text.get()
+    text_info = kalimat_entry.get('1.0', 'end-1c')
     get_pronunciation(loaded_words, text_info)
 # Fungsi untuk menyimpan audio
 def save_audio(corpus,str_input):
@@ -439,14 +442,30 @@ def save_audio(corpus,str_input):
 # Fungsi mengeksekusi penyimpanan audio
 def saved():
     loaded_words = load_words(WORDS_PRON_DICT)
-    text_info = text.get()
+    # text_info = text.get()
+    text_info = kalimat_entry.get('1.0', 'end-1c')
     save_audio(loaded_words,text_info)
 
+def clear_text():
+    tab1_display.delete(1.0, tk.END)
+def browse_corpus_file():
+    global WORDS_PRON_DICT
+    file_path = filedialog.askopenfilename(title="Select Corpus File", filetypes=[("Text Files", "*.txt")])
+    WORDS_PRON_DICT = file_path
+    corpus_file_entry.delete(0, tk.END)
+    corpus_file_entry.insert(tk.END, file_path)
 
+def retrieve_input():
+    global text
+    text = kalimat_entry.get('1.0', 'end-1c')
+
+def mulai():
+    retrieve_input()
+    browse_corpus_file()
 
 # Membuat jendela utama aplikasi
 root = tk.Tk()
-root.title("Corpus Search GUI")
+root.title("TTS With Kategorisasi Fonem")
 root.geometry("650x500")
 
 # Membuat tab menggunakan ttk.Notebook
@@ -457,30 +476,35 @@ tab_control.pack(expand=1, fill='both')
 
 # Membuat elemen-elemen GUI
 kalimat_label = tk.Label(tab1, text="Masukkan kalimat:")
-text = tk.StringVar()
-kalimat_entry = tk.Entry(tab1, textvariable=text, width=50)
+kalimat_label.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
+kalimat_entry = tk.Text(tab1,height=3, width=37)
+kalimat_entry.grid(row=0, column=1, columnspan=3, padx=5, pady=5, sticky=tk.W)
+save_var = tk.Button(tab1, text = 'Save to Variable "text"', command = retrieve_input)
+
+
 corpus_file_label = tk.Label(tab1, text="Lokasi Corpus File:")
 corpus_file_entry = tk.Entry(tab1, width=50)
 corpus_file_entry.insert(tk.END, "Pilih Corpus Dulu ^_*")
-corpus_file_button = tk.Button(tab1, text="Browse", command=browse_corpus_file)
-search_button = tk.Button(tab1, text="Cek Corpus", command=run_search)
-result_label = tk.Label(tab1, text="", wraplength=400)
-
-
-# Menampilkan elemen-elemen GUI
-kalimat_label.grid(row=0, column=0, padx=5, pady=5, sticky=tk.W)
-kalimat_entry.grid(row=0, column=1, columnspan=3, padx=5, pady=5, sticky=tk.W)
 corpus_file_label.grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
 corpus_file_entry.grid(row=1, column=1, padx=5, pady=5, sticky=tk.W)
+
+corpus_file_button = tk.Button(tab1, text="Browse", command=mulai)
+search_button = tk.Button(tab1, text="Cek Corpus", command=run_search)
 corpus_file_button.grid(row=1, column=2, padx=5, pady=5, sticky=tk.W)
 search_button.grid(row=0, column=2, padx=5, pady=5,sticky=tk.W)
+
+
+result_label = tk.Label(tab1, text="", wraplength=400)
 result_label.grid(row=3, column=0, columnspan=4, padx=5, pady=5)
+
 tab1_display = tk.Text(tab1)
 tab1_display.grid(row=7, column=0, columnspan=3, padx=5, pady=5)
 button = tk.Button(tab1, text="Convert To Audio", command=convert_audio1, width="15", bg="#03A9F4", fg="#FFF")
 button.grid(row=2, column=0, padx=5, pady=10,sticky=tk.W)
 button = tk.Button(tab1, text="Save Audio", command=saved, width="15", bg="#03A9F4", fg="#FFF")
 button.grid(row=2, column=1, padx=5, pady=10,sticky=tk.W)
+clear_button = tk.Button(tab1, text="Clear", command=clear_text)
+clear_button.grid(row=2, column=2, padx=5, pady=0,sticky=tk.W)
 
 # Menjalankan loop utama GUI
 tab1.mainloop()
