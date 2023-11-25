@@ -275,12 +275,20 @@ def kategorisasi_fonem(missing_words, file_path):
             for i, fonem in enumerate(fonem_tengah):
                 if len(fonem) == 1 and fonem in k:
                     fonem_tengah[i] = fonem + "~"
-            fonem_tengah = [item for item in fonem_tengah if item != ""]
+
+
 
         #memastikan tidak ada fonem kosong
         fonem_awal = [item for item in fonem_awal if item != ""]
         fonem_tengah = [item for item in fonem_tengah if item != ""]
         fonem_akhir = [item for item in fonem_akhir if item != ""]
+
+
+        if fonem_tengah and fonem_akhir:
+            if "~" in fonem_tengah[-1] and fonem_akhir[0] in v:
+                fonem_tengah.pop()
+                fonem_akhir.pop()
+                fonem_akhir.append(word[-2:])
 
 
         def clean_and_combine(fonem_list):
